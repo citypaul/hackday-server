@@ -25,7 +25,7 @@ app.post('/scenarios/:scenario/:id', function (req, res) {
 app.get('/scenarios/:scenario', function(req, res) {
     glob('./data/' + req.params.scenario + '/*.json', {}, function (er, files) {
         res.json({
-            snapshots: files.map(function (file) {
+            scenarios: files.map(function (file) {
                return JSON.parse(fs.readFileSync(file, 'utf-8'));
             })
         });
