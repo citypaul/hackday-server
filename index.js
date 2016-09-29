@@ -2,12 +2,17 @@ var express = require('express')
 var app = express();
 var port = process.env.PORT || 3001;
 var glob = require('glob');
-var fs = require('fs');
+var fs = require('fs-extra');
+var bodyParser = require('body-parser');
 
-app.post('/scenario/:id', function (req, res) {
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.post('/:scenario/:id', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
+    var filePath = 'data' + '/' + req.params.scenario + '/' + req.params.id + '.json';
+    fs.outputJsonSync(filePath, req.body);
 });
 
 app.get('/:scenario', function(req, res) {
