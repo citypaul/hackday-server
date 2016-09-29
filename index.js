@@ -16,13 +16,13 @@ app.all('*', function (req, res, next) {
     next();
 });
 
-app.post('/:scenario/:id', function (req, res) {
+app.post('/scenarios/:scenario/:id', function (req, res) {
     var filePath = 'data' + '/' + req.params.scenario + '/' + req.params.id + '.json';
     fs.outputJsonSync(filePath, req.body);
     res.send(req.body);
 });
 
-app.get('/:scenario', function(req, res) {
+app.get('/scenarios/:scenario', function(req, res) {
     glob('./data/' + req.params.scenario + '/*.json', {}, function (er, files) {
         res.json({
             snapshots: files.map(function (file) {
@@ -32,7 +32,7 @@ app.get('/:scenario', function(req, res) {
     })
 });
 
-app.get('/:scenario/:id', function(req, res) {
+app.get('/scenarios/:scenario/:id', function(req, res) {
     res.json(
         require('./data/' + req.params.scenario + '/' + req.params.id + '.json')
     );
