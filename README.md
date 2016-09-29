@@ -19,3 +19,6 @@ and
 
 `http://localhost:3001/scenario-1/2`
 
+You can also pull back the entire scenario with:
+
+`http://localhost:3001/scenario-1`
