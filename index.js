@@ -8,18 +8,19 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/:scenario/:id', function (req, res) {
+app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+
+app.post('/:scenario/:id', function (req, res) {
     var filePath = 'data' + '/' + req.params.scenario + '/' + req.params.id + '.json';
     fs.outputJsonSync(filePath, req.body);
     res.send(req.body);
 });
 
 app.get('/:scenario', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
     glob('./data/' + req.params.scenario + '/*.json', {}, function (er, files) {
         res.json({
             snapshots: files.map(function (file) {
@@ -30,8 +31,6 @@ app.get('/:scenario', function(req, res) {
 });
 
 app.get('/:scenario/:id', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.json(
         require('./data/' + req.params.scenario + '/' + req.params.id + '.json')
     );
