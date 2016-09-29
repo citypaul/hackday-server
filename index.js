@@ -13,6 +13,7 @@ app.post('/:scenario/:id', function (req, res) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     var filePath = 'data' + '/' + req.params.scenario + '/' + req.params.id + '.json';
     fs.outputJsonSync(filePath, req.body);
+    res.send(req.body);
 });
 
 app.get('/:scenario', function(req, res) {
